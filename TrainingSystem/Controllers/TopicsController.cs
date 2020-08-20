@@ -10,125 +10,124 @@ using TrainingSystem.Models;
 
 namespace TrainingSystem.Controllers
 {
-    public class TrainingStaffController : Controller
+    public class TopicsController : Controller
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        // GET: TrainingStaff
+        // GET: Topics
         public ActionResult Index()
         {
-            return View(db.Users.Where(u => u.Role == "TrainingStaff").ToList());
+            return View(db.Topics.ToList());
         }
 
-        // GET: TrainingStaff/Details/5
-        public ActionResult Details(string id)
+        // GET: Topics/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Topic topic = db.Topics.Find(id);
+            if (topic == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(topic);
         }
 
-        // GET: TrainingStaff/Create
+        // GET: Topics/Create
         public ActionResult Create()
         {
-            if (Authorizer.CheckRole("Administrator", Session))
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
                 return View();
             }
             else
-                return View("AccessDenied");
-            
+                return View("AccessDenied");  
         }
 
-        // POST: TrainingStaff/Create
+        // POST: Topics/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Create([Bind(Include = "TopicID,Name,Description")] Topic topic)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Topics.Add(topic);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(topic);
         }
 
-        // GET: TrainingStaff/Edit/5
-        public ActionResult Edit(string id)
+        // GET: Topics/Edit/5
+        public ActionResult Edit(int? id)
         {
-            if (Authorizer.CheckRole("Administrator", Session))
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                User user = db.Users.Find(id);
-                if (user == null)
+                Topic topic = db.Topics.Find(id);
+                if (topic == null)
                 {
                     return HttpNotFound();
                 }
-                return View(user);
+                return View(topic);
             }
             else
                 return View("AccessDenied");
             
         }
 
-        // POST: TrainingStaff/Edit/5
+        // POST: Topics/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Edit([Bind(Include = "TopicID,Name,Description")] Topic topic)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(topic).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(topic);
         }
 
-        // GET: TrainingStaff/Delete/5
-        public ActionResult Delete(string id)
+        // GET: Topics/Delete/5
+        public ActionResult Delete(int? id)
         {
-            if (Authorizer.CheckRole("Administrator", Session))
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                User user = db.Users.Find(id);
-                if (user == null)
+                Topic topic = db.Topics.Find(id);
+                if (topic == null)
                 {
                     return HttpNotFound();
                 }
-                return View(user);
+                return View(topic);
             }
             else
                 return View("AccessDenied");
             
         }
 
-        // POST: TrainingStaff/Delete/5
+        // POST: Topics/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Topic topic = db.Topics.Find(id);
+            db.Topics.Remove(topic);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

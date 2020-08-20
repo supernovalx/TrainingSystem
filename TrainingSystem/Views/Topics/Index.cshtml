@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TrainingSystem.Models.Topic>
+
+@{
+    ViewBag.Title = "Topic";
+}
+
+<h2>List of topics</h2>
+
+@if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+{
+    <a class="btn btn-success" href="/Courses/Create" role="button"><i class="fas fa-plus"></i> New topic</a>
+}
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.ActionLink("Details", "Details", new { id = item.TopicID })
+        @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+        {
+            <span>|</span>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TopicID })
+            <span>|</span>
+            @Html.ActionLink("Delete", "Delete", new { id = item.TopicID })
+        }
+    </td>
+</tr>
+    }
+</table>

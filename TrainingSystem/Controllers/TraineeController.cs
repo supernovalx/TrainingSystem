@@ -17,7 +17,7 @@ namespace TrainingSystem.Controllers
         // GET: Trainee
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(db.Users.Where(u => u.Role == "Trainee").ToList());
         }
 
         // GET: Trainee/Details/5
@@ -38,7 +38,12 @@ namespace TrainingSystem.Controllers
         // GET: Trainee/Create
         public ActionResult Create()
         {
-            return View();
+            if (Authorizer.CheckRole("TrainingStaff", Session))
+            {
+                return View();
+            }
+            else
+                return View("AccessDenied");  
         }
 
         // POST: Trainee/Create
@@ -61,16 +66,22 @@ namespace TrainingSystem.Controllers
         // GET: Trainee/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            else
+                return View("AccessDenied");
+           
         }
 
         // POST: Trainee/Edit/5
@@ -92,16 +103,22 @@ namespace TrainingSystem.Controllers
         // GET: Trainee/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            else
+                return View("AccessDenied");
+            
         }
 
         // POST: Trainee/Delete/5

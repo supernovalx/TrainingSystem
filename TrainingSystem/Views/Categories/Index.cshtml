@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TrainingSystem.Models.Category>
+
+@{
+    ViewBag.Title = "Course categories";
+}
+
+<h2>List of course categories</h2>
+
+@if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+{
+    <a class="btn btn-success" href="/Categories/Index" role="button"><i class="fas fa-plus"></i> New category</a>
+}
+
+<div class="flex-container">
+
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img src="~/Content/Images/@item.Image" class="card-img-top" alt="@item.Name logo">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                @Html.ActionLink("Details", "Details", new { id = item.CategoryID }, new { @class = "btn btn-secondary"  })
+                @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary"  })<span></span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger"  })
+                }
+            </div>
+        </div>
+    }
+</div>

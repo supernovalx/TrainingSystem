@@ -1,24 +1,86 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.nav-list > li {
+    list-style: none;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+    .nav-list > li > a {
+        color: black;
+        display: block;
+        padding: 2rem;
+        font-size: 1.5rem;
+    }
+
+        .nav-list > li > a:hover {
+            text-decoration: none;
+            background-color: white;
+            color: blue;
+            cursor: pointer;
+        }
+
+.selected {
+    background-color: white;
+    color: blue;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list {
+    padding-left: .5rem;
+    padding-right: 0;
+}
+
+#logo {
+    margin: 0 auto;
+    display: block;
+}
+
+.side-bar {
+    padding: 0;
+    margin: 0;
+    -webkit-box-shadow: 10px 0px 40px -13px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 0px 40px -13px rgba(0,0,0,0.75);
+    box-shadow: 10px 0px 40px -13px rgba(0,0,0,0.75);
+    min-height: 97vh;
+    background-color: lightgray;
+    z-index: 10;
+}
+
+.content {
+    padding: 3em 0 0 3em;
+}
+
+.flex-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+}
+
+.login-state {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: white;
+}
+
+.card {
+    -webkit-box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
+}
+
+.copyright {
+    margin: 0 auto;
+    margin-top: 2em;
+    text-align: center;
+    display: block;
+    color: black;
 }

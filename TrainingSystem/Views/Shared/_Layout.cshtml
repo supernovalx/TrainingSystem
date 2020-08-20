@@ -3,43 +3,64 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Training System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("css", false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Trainer Management", "Index", "Trainer")</li>
-                    <li>@Html.ActionLink("Training Staff Management", "Index", "TrainingStaff")</li>
-                    <li>@Html.ActionLink("Trainee Management", "Index", "Trainee")</li>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-2 side-bar">
+                <a href="/Home/Index">
+                    <img src="~/Content/Images/logo.png" id="logo">
+                </a>
+                @if (Session["role"] == null)
+                {
+                    <p class="login-state">Welcome <span class="badge badge-primary">guest</span></p>
+                }
+                else
+                {
+                    <p class="login-state"> Welcome @Session["name"] <span class="badge badge-primary">@Session["role"]</span></p>
+                }
+                <ul class="nav-list">
+                    @if (Session["username"] == null)
+                    {
+                        <li><a href="/Login/Index"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    }
+                    @if (Session["role"] != null && Session["role"].ToString() == "Administrator")
+                    {
+                        <li><a href="/TrainingStaff/Index"><i class="fas fa-users-cog"></i> Training Staff</a></li>
+                        <li><a href="/Trainer/Index"><i class="fas fa-chalkboard-teacher"></i> Trainer</a></li>
+                    }
+                    @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+                    {
+                        <li><a href="/Trainer/Index"><i class="fas fa-chalkboard-teacher"></i> Trainer</a></li>
+                        <li><a href="/Trainee/Index"><i class="fas fa-user-graduate"></i> Trainee</a></li>
+                    }
+                    <li><a href="/Categories/Index"><i class="fas fa-stream"></i> Course Category</a></li>
+                    <li><a href="/Courses/Index"><i class="fas fa-book"></i> Courses</a></li>
+                    <li><a href="/Topics/Index"><i class="far fa-comment-dots"></i> Topic</a></li>
+                    @if (Session["username"] != null)
+                    {
+                        <li><a href="/Logout/Index"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    }
+
                 </ul>
+            </div>
+            <div class="col content">
+                @RenderBody()
+
+                <p class="copyright">&copy; @DateTime.Now.Year - FPT Internal Training System</p>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
