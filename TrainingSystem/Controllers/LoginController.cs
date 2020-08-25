@@ -10,7 +10,7 @@ namespace TrainingSystem.Controllers
     public class LoginController : Controller
     {
         private TrainDbEntities db = new TrainDbEntities();
-        // GET: Login
+        
         public ActionResult Index()
         {
             if (Session["username"] != null)

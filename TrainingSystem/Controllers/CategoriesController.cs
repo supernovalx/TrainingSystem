@@ -14,13 +14,11 @@ namespace TrainingSystem.Controllers
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        // GET: Categories
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
         }
 
-        // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,7 +33,6 @@ namespace TrainingSystem.Controllers
             return View(category);
         }
 
-        // GET: Categories/Create
         public ActionResult Create()
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -44,9 +41,6 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CategoryID,Name,Description,ImageFile")] Category category)
@@ -64,7 +58,6 @@ namespace TrainingSystem.Controllers
             return View(category);
         }
 
-        // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -85,9 +78,6 @@ namespace TrainingSystem.Controllers
             
         }
 
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CategoryID,Name,Description,ImageFile")] Category category)
@@ -104,7 +94,6 @@ namespace TrainingSystem.Controllers
             return View(category);
         }
 
-        // GET: Categories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -124,7 +113,6 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

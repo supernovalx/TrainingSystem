@@ -75,6 +75,7 @@
     -webkit-box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 25px -13px rgba(0,0,0,0.75);
+    margin-bottom: 3em;
 }
 
 .copyright {
@@ -93,4 +94,8 @@
     margin: 0 auto;
     display: block;
     height: 40vh;
+}
+
+.carousel-img {
+    height: 60vh;
 }

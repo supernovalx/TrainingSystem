@@ -15,7 +15,7 @@ namespace TrainingSystem.Controllers
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        // GET: Courses
+        
         public ActionResult Index()
         {
             List<Course> courses = db.Courses.Include(c => c.Category).ToList();
@@ -28,7 +28,7 @@ namespace TrainingSystem.Controllers
             return View(courses.ToList());
         }
 
-        // GET: Courses/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,7 +43,7 @@ namespace TrainingSystem.Controllers
             return View(course);
         }
 
-        // GET: Courses/Create
+        
         public ActionResult Create()
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -56,9 +56,9 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Courses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CourseID,Name,Description,ImageFile,CategoryID")] Course course)
@@ -77,7 +77,7 @@ namespace TrainingSystem.Controllers
             return View(course);
         }
 
-        // GET: Courses/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -98,9 +98,9 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseID,Name,Description,ImageFile,CategoryID")] Course course)
@@ -118,7 +118,7 @@ namespace TrainingSystem.Controllers
             return View(course);
         }
 
-        // GET: Courses/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -139,7 +139,7 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Courses/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

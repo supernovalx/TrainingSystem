@@ -28,6 +28,6 @@ namespace TrainingSystem.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }
-        public HttpPostedFile ImageFile { set; get; }
+        public HttpPostedFileBase ImageFile { set; get; }
     }
 }

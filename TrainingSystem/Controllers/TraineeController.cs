@@ -14,7 +14,7 @@ namespace TrainingSystem.Controllers
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        // GET: Trainee
+        
         public ActionResult Index()
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -25,7 +25,7 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // GET: Trainee/Details/5
+        
         public ActionResult Details(string id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -79,7 +79,7 @@ namespace TrainingSystem.Controllers
             return Redirect("/Trainee/Details/" + traineeID);
         }
 
-        // GET: Trainee/Create
+        
         public ActionResult Create()
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -90,9 +90,9 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // POST: Trainee/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
@@ -108,7 +108,7 @@ namespace TrainingSystem.Controllers
             return View(user);
         }
 
-        // GET: Trainee/Edit/5
+        
         public ActionResult Edit(string id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -129,9 +129,9 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Trainee/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
@@ -146,7 +146,7 @@ namespace TrainingSystem.Controllers
             return View(user);
         }
 
-        // GET: Trainee/Delete/5
+        
         public ActionResult Delete(string id)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
@@ -167,7 +167,7 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Trainee/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)

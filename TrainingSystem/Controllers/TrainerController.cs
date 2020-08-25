@@ -14,7 +14,7 @@ namespace TrainingSystem.Controllers
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        // GET: Trainer
+        
         public ActionResult Index()
         {
             if (Authorizer.CheckRole("Administrator,TrainingStaff", Session))
@@ -25,7 +25,7 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // GET: Trainer/Details/5
+        
         public ActionResult Details(string id)
         {
             if (Authorizer.CheckRole("Administrator,TrainingStaff", Session))
@@ -45,7 +45,7 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // GET: Trainer/Create
+        
         public ActionResult Create()
         {
             if (Authorizer.CheckRole("TrainingStaff,Administrator", Session))
@@ -56,9 +56,9 @@ namespace TrainingSystem.Controllers
                 return View("AccessDenied");
         }
 
-        // POST: Trainer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
@@ -129,9 +129,9 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Trainer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateProfile([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
@@ -146,7 +146,7 @@ namespace TrainingSystem.Controllers
             return View(user);
         }
 
-        // GET: Trainer/Edit/5
+        
         public ActionResult Edit(string id)
         {
             if (Authorizer.CheckRole("TrainingStaff,Administrator", Session))
@@ -167,9 +167,9 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Trainer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
@@ -184,7 +184,7 @@ namespace TrainingSystem.Controllers
             return View(user);
         }
 
-        // GET: Trainer/Delete/5
+        
         public ActionResult Delete(string id)
         {
             if (Authorizer.CheckRole("TrainingStaff,Administrator", Session))
@@ -205,7 +205,7 @@ namespace TrainingSystem.Controllers
 
         }
 
-        // POST: Trainer/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
