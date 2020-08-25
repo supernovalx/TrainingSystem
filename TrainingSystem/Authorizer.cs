@@ -10,7 +10,7 @@ namespace TrainingSystem
     {
         public static bool CheckRole(string role, HttpSessionStateBase session)
         {
-            return session["role"] != null && role.Split(',').All(r => r == session["role"].ToString());
+            return session["role"] != null && role.Split(',').Any(r => r == session["role"].ToString());
         }
     }
 }

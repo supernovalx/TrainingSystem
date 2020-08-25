@@ -24,14 +24,6 @@
           <Property Name="Image" Type="varchar" MaxLength="255" />
           <Property Name="CategoryID" Type="int" />
         </EntityType>
-        <EntityType Name="CourseTopic">
-          <Key>
-            <PropertyRef Name="CourseID" />
-            <PropertyRef Name="TopicID" />
-          </Key>
-          <Property Name="CourseID" Type="int" Nullable="false" />
-          <Property Name="TopicID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Topic">
           <Key>
             <PropertyRef Name="TopicID" />
@@ -39,6 +31,7 @@
           <Property Name="TopicID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="CourseID" Type="int" />
         </EntityType>
         <EntityType Name="TraineeCourse">
           <Key>
@@ -76,7 +69,7 @@
           <Property Name="Phone" Type="varchar" MaxLength="255" />
           <Property Name="Workplace" Type="varchar" MaxLength="255" />
         </EntityType>
-        <Association Name="FK__Course__Category__2A4B4B5E">
+        <Association Name="FK__Course__Category__286302EC">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Course" Type="Self.Course" Multiplicity="*" />
           <ReferentialConstraint>
@@ -88,31 +81,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CourseTop__Cours__34C8D9D1">
-          <End Role="Course" Type="Self.Course" Multiplicity="1" />
-          <End Role="CourseTopic" Type="Self.CourseTopic" Multiplicity="*" />
+        <Association Name="FK__Topic__CourseID__2B3F6F97">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Course">
               <PropertyRef Name="CourseID" />
             </Principal>
-            <Dependent Role="CourseTopic">
+            <Dependent Role="Topic">
               <PropertyRef Name="CourseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CourseTop__Topic__35BCFE0A">
-          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
-          <End Role="CourseTopic" Type="Self.CourseTopic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Topic">
-              <PropertyRef Name="TopicID" />
-            </Principal>
-            <Dependent Role="CourseTopic">
-              <PropertyRef Name="TopicID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__TraineeCo__Cours__31EC6D26">
+        <Association Name="FK__TraineeCo__Cours__32E0915F">
           <End Role="Course" Type="Self.Course" Multiplicity="1" />
           <End Role="TraineeCourse" Type="Self.TraineeCourse" Multiplicity="*" />
           <ReferentialConstraint>
@@ -124,7 +105,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TraineeCo__UserI__30F848ED">
+        <Association Name="FK__TraineeCo__UserI__31EC6D26">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="TraineeCourse" Type="Self.TraineeCourse" Multiplicity="*" />
           <ReferentialConstraint>
@@ -136,7 +117,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TrainerTo__Topic__2E1BDC42">
+        <Association Name="FK__TrainerTo__Topic__2F10007B">
           <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
           <End Role="TrainerTopic" Type="Self.TrainerTopic" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,7 +129,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TrainerTo__UserI__2D27B809">
+        <Association Name="FK__TrainerTo__UserI__2E1BDC42">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="TrainerTopic" Type="Self.TrainerTopic" Multiplicity="*" />
           <ReferentialConstraint>
@@ -163,36 +144,31 @@
         <EntityContainer Name="TrainDbModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CourseTopic" EntityType="Self.CourseTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TraineeCourse" EntityType="Self.TraineeCourse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrainerTopic" EntityType="Self.TrainerTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Course__Category__2A4B4B5E" Association="Self.FK__Course__Category__2A4B4B5E">
+          <AssociationSet Name="FK__Course__Category__286302EC" Association="Self.FK__Course__Category__286302EC">
             <End Role="Category" EntitySet="Category" />
             <End Role="Course" EntitySet="Course" />
           </AssociationSet>
-          <AssociationSet Name="FK__CourseTop__Cours__34C8D9D1" Association="Self.FK__CourseTop__Cours__34C8D9D1">
+          <AssociationSet Name="FK__Topic__CourseID__2B3F6F97" Association="Self.FK__Topic__CourseID__2B3F6F97">
             <End Role="Course" EntitySet="Course" />
-            <End Role="CourseTopic" EntitySet="CourseTopic" />
-          </AssociationSet>
-          <AssociationSet Name="FK__CourseTop__Topic__35BCFE0A" Association="Self.FK__CourseTop__Topic__35BCFE0A">
             <End Role="Topic" EntitySet="Topic" />
-            <End Role="CourseTopic" EntitySet="CourseTopic" />
           </AssociationSet>
-          <AssociationSet Name="FK__TraineeCo__Cours__31EC6D26" Association="Self.FK__TraineeCo__Cours__31EC6D26">
+          <AssociationSet Name="FK__TraineeCo__Cours__32E0915F" Association="Self.FK__TraineeCo__Cours__32E0915F">
             <End Role="Course" EntitySet="Course" />
             <End Role="TraineeCourse" EntitySet="TraineeCourse" />
           </AssociationSet>
-          <AssociationSet Name="FK__TraineeCo__UserI__30F848ED" Association="Self.FK__TraineeCo__UserI__30F848ED">
+          <AssociationSet Name="FK__TraineeCo__UserI__31EC6D26" Association="Self.FK__TraineeCo__UserI__31EC6D26">
             <End Role="Users" EntitySet="Users" />
             <End Role="TraineeCourse" EntitySet="TraineeCourse" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainerTo__Topic__2E1BDC42" Association="Self.FK__TrainerTo__Topic__2E1BDC42">
+          <AssociationSet Name="FK__TrainerTo__Topic__2F10007B" Association="Self.FK__TrainerTo__Topic__2F10007B">
             <End Role="Topic" EntitySet="Topic" />
             <End Role="TrainerTopic" EntitySet="TrainerTopic" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainerTo__UserI__2D27B809" Association="Self.FK__TrainerTo__UserI__2D27B809">
+          <AssociationSet Name="FK__TrainerTo__UserI__2E1BDC42" Association="Self.FK__TrainerTo__UserI__2E1BDC42">
             <End Role="Users" EntitySet="Users" />
             <End Role="TrainerTopic" EntitySet="TrainerTopic" />
           </AssociationSet>
@@ -210,7 +186,7 @@
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Category__2A4B4B5E" FromRole="Category" ToRole="Course" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Category__286302EC" FromRole="Category" ToRole="Course" />
         </EntityType>
         <EntityType Name="Course">
           <Key>
@@ -221,8 +197,8 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CategoryID" Type="Int32" />
-          <NavigationProperty Name="Category" Relationship="Self.FK__Course__Category__2A4B4B5E" FromRole="Course" ToRole="Category" />
-          <NavigationProperty Name="Topics" Relationship="Self.CourseTopic" FromRole="Course" ToRole="Topic" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Course__Category__286302EC" FromRole="Course" ToRole="Category" />
+          <NavigationProperty Name="Topics" Relationship="Self.FK__Topic__CourseID__2B3F6F97" FromRole="Course" ToRole="Topic" />
           <NavigationProperty Name="Users" Relationship="Self.TraineeCourse" FromRole="Course" ToRole="Users" />
         </EntityType>
         <EntityType Name="Topic">
@@ -232,7 +208,8 @@
           <Property Name="TopicID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Courses" Relationship="Self.CourseTopic" FromRole="Topic" ToRole="Course" />
+          <Property Name="CourseID" Type="Int32" />
+          <NavigationProperty Name="Course" Relationship="Self.FK__Topic__CourseID__2B3F6F97" FromRole="Topic" ToRole="Course" />
           <NavigationProperty Name="Users" Relationship="Self.TrainerTopic" FromRole="Topic" ToRole="Users" />
         </EntityType>
         <EntityType Name="User">
@@ -257,7 +234,7 @@
           <NavigationProperty Name="Courses" Relationship="Self.TraineeCourse" FromRole="Users" ToRole="Course" />
           <NavigationProperty Name="Topics" Relationship="Self.TrainerTopic" FromRole="Users" ToRole="Topic" />
         </EntityType>
-        <Association Name="FK__Course__Category__2A4B4B5E">
+        <Association Name="FK__Course__Category__286302EC">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Course" Type="Self.Course" Multiplicity="*" />
           <ReferentialConstraint>
@@ -269,9 +246,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CourseTopic">
-          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+        <Association Name="FK__Topic__CourseID__2B3F6F97">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
           <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="TraineeCourse">
           <End Role="Course" Type="Self.Course" Multiplicity="*" />
@@ -286,11 +271,11 @@
           <EntitySet Name="Courses" EntityType="Self.Course" />
           <EntitySet Name="Topics" EntityType="Self.Topic" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__Course__Category__2A4B4B5E" Association="Self.FK__Course__Category__2A4B4B5E">
+          <AssociationSet Name="FK__Course__Category__286302EC" Association="Self.FK__Course__Category__286302EC">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Course" EntitySet="Courses" />
           </AssociationSet>
-          <AssociationSet Name="CourseTopic" Association="Self.CourseTopic">
+          <AssociationSet Name="FK__Topic__CourseID__2B3F6F97" Association="Self.FK__Topic__CourseID__2B3F6F97">
             <End Role="Course" EntitySet="Courses" />
             <End Role="Topic" EntitySet="Topics" />
           </AssociationSet>
@@ -336,6 +321,7 @@
                 <ScalarProperty Name="TopicID" ColumnName="TopicID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -360,14 +346,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="CourseTopic" TypeName="TrainDbModel.CourseTopic" StoreEntitySet="CourseTopic">
-            <EndProperty Name="Course">
-              <ScalarProperty Name="CourseID" ColumnName="CourseID" />
-            </EndProperty>
-            <EndProperty Name="Topic">
-              <ScalarProperty Name="TopicID" ColumnName="TopicID" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="TraineeCourse" TypeName="TrainDbModel.TraineeCourse" StoreEntitySet="TraineeCourse">
             <EndProperty Name="Course">
               <ScalarProperty Name="CourseID" ColumnName="CourseID" />

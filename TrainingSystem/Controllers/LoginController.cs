@@ -42,7 +42,7 @@ namespace TrainingSystem.Controllers
             else if (role == "TrainingStaff")
                 return RedirectToAction("Index", "Trainer");
             else if (role == "Trainer")
-                return RedirectToAction("Index", "Trainee");
+                return RedirectToAction("UpdateProfile", "Trainer");
             else
                 return RedirectToAction("Index", "Login");
 

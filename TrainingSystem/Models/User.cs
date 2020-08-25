@@ -11,7 +11,9 @@ namespace TrainingSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,15 +26,22 @@ namespace TrainingSystem.Models
         public string UserID { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        [DisplayName("Full name")]
         public string Name { get; set; }
         public string Email { get; set; }
+        [DisplayName("Date of birth")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DOB { get; set; }
         public string Education { get; set; }
+        [DisplayName("Prefered programming language")]
         public string ProgrammingLanguage { get; set; }
+        [DisplayName("TOEIC Score")]
         public Nullable<int> TOEIC { get; set; }
         public string Experience { get; set; }
         public string Department { get; set; }
         public string Location { get; set; }
+        [DisplayName("Trainer type")]
         public string Type { get; set; }
         public string Phone { get; set; }
         public string Workplace { get; set; }

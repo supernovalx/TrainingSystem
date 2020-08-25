@@ -9,15 +9,6 @@ values
 	('trainee01', '1', 'Trainee', 'Janelle Bradtke', 'yawdehm@khoastore.net', '20000130', 'B.A', 'C#', 450, '1 year', 'Department of ABC', 'Earth', '', '', ''),
 	('trainee02', '1', 'Trainee', 'Elda Durgan', 'yboi@khd.net', '20000423', 'B.A', 'Brainfuck', 369, '2 years', 'Department of XYZ', 'Earth', '', '', '')
 
-SET IDENTITY_INSERT Topic ON;
-insert into Topic(TopicID, Name, Description)
-values
-	(1, 'C# overview', 'Overview of C# language'),
-	(2, 'C# program structure', 'Structure of a C# program'),
-	(3, 'Python overview', 'Overview of python language'),
-	(4, 'Python program structure', 'Structure of a python program')
-SET IDENTITY_INSERT Topic OFF;
-
 SET IDENTITY_INSERT Category ON;
 insert into Category(CategoryID, Name, Description, Image)
 values
@@ -32,6 +23,16 @@ values
 	(2, 'Introduction to Python', 'Basic python course', 'course2.jpg', 2)
 SET IDENTITY_INSERT Course OFF;
 
+SET IDENTITY_INSERT Topic ON;
+insert into Topic(TopicID, Name, Description, CourseID)
+values
+	(1, 'C# overview', 'Overview of C# language', 1),
+	(2, 'C# program structure', 'Structure of a C# program', 1),
+	(3, 'Python overview', 'Overview of python language', 2),
+	(4, 'Python program structure', 'Structure of a python program', 2)
+SET IDENTITY_INSERT Topic OFF;
+
+
 insert into TrainerTopic(UserID, TopicID)
 values
 	('trainer02', 1),
@@ -43,11 +44,4 @@ insert into TraineeCourse(UserID, CourseID)
 values
 	('trainee01', 1),
 	('trainee02', 2)
-
-insert into CourseTopic(CourseID, TopicID)
-values
-	(1, 1),
-	(1, 2),
-	(2, 3),
-	(2, 4)
 

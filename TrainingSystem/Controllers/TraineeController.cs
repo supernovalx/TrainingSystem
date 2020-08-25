@@ -17,22 +17,66 @@ namespace TrainingSystem.Controllers
         // GET: Trainee
         public ActionResult Index()
         {
-            return View(db.Users.Where(u => u.Role == "Trainee").ToList());
+            if (Authorizer.CheckRole("TrainingStaff", Session))
+            {
+                return View(db.Users.Where(u => u.Role == "Trainee").ToList());
+            }
+            else
+                return View("AccessDenied");
         }
 
         // GET: Trainee/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            else
+                return View("AccessDenied");
+        }
+
+        public ActionResult AssignCourse(string id)
+        {
+            if (Authorizer.CheckRole("TrainingStaff", Session))
             {
-                return HttpNotFound();
+                ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Name");
+                ViewBag.TraineeID = id;
+                return View();
             }
-            return View(user);
+            else
+                return View("AccessDenied");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignCourse(string traineeID, int courseID)
+        {
+            Course course = db.Courses.FirstOrDefault(t => t.CourseID == courseID);
+            User user = db.Users.FirstOrDefault(u => u.UserID == traineeID);
+            course.Users.Add(user);
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+            return Redirect("/Trainee/Details/" + traineeID);
+        }
+
+        public ActionResult RemoveAssignCourse(string traineeID, int courseID)
+        {
+            Course course = db.Courses.FirstOrDefault(t => t.CourseID == courseID);
+            User user = db.Users.FirstOrDefault(u => u.UserID == traineeID);
+            course.Users.Remove(user);
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+            return Redirect("/Trainee/Details/" + traineeID);
         }
 
         // GET: Trainee/Create
@@ -43,7 +87,7 @@ namespace TrainingSystem.Controllers
                 return View();
             }
             else
-                return View("AccessDenied");  
+                return View("AccessDenied");
         }
 
         // POST: Trainee/Create
@@ -51,10 +95,11 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "Trainee";
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -81,7 +126,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-           
+
         }
 
         // POST: Trainee/Edit/5
@@ -89,10 +134,11 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "Trainee";
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -118,7 +164,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: Trainee/Delete/5

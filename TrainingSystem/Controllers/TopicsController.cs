@@ -40,6 +40,7 @@ namespace TrainingSystem.Controllers
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
             {
+                ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Name");
                 return View();
             }
             else
@@ -51,7 +52,7 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TopicID,Name,Description")] Topic topic)
+        public ActionResult Create([Bind(Include = "TopicID,Name,Description,CourseID")] Topic topic)
         {
             if (ModelState.IsValid)
             {

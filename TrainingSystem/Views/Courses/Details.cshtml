@@ -4,20 +4,12 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.Name</h2>
 
 <div>
-    <h4>Course</h4>
+    <img class="course-img" src="~/Content/Images/@Model.Image" alt="@Model.Description" />
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -27,22 +19,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            Category
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
+            <a href="/Categories/Details/@Model.CategoryID">@Model.Category.Name</a>
         </dd>
 
     </dl>
+    <h4>Topics in this course:</h4>
     <ol>
         @foreach (var topic in Model.Topics)
         {
@@ -52,6 +37,9 @@
     
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CourseID }) |
+    @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.CourseID }) <span>|</span>
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

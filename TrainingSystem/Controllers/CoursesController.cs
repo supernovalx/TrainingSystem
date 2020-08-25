@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,7 +18,13 @@ namespace TrainingSystem.Controllers
         // GET: Courses
         public ActionResult Index()
         {
-            var courses = db.Courses.Include(c => c.Category);
+            List<Course> courses = db.Courses.Include(c => c.Category).ToList();
+            if (Authorizer.CheckRole("Trainer", Session))
+            {
+                string uid = Session["username"].ToString();
+                User user = db.Users.FirstOrDefault(u => u.UserID == uid);
+                courses = user.Topics.Select(t => t.Course).Distinct().ToList();
+            }
             return View(courses.ToList());
         }
 
@@ -46,7 +53,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: Courses/Create
@@ -54,10 +61,13 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CourseID,Name,Description,Image,CategoryID")] Course course)
+        public ActionResult Create([Bind(Include = "CourseID,Name,Description,ImageFile,CategoryID")] Course course)
         {
             if (ModelState.IsValid)
             {
+                string filename = new Random().Next(31287489).ToString() + course.ImageFile.FileName;
+                course.ImageFile.SaveAs(@"C:\Users\hoang\source\repos\TrainingSystem\TrainingSystem\Content\Images\" + filename);
+                course.Image = filename;
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -93,10 +103,13 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseID,Name,Description,Image,CategoryID")] Course course)
+        public ActionResult Edit([Bind(Include = "CourseID,Name,Description,ImageFile,CategoryID")] Course course)
         {
             if (ModelState.IsValid)
             {
+                string filename = new Random().Next(31287489).ToString() + course.ImageFile.FileName;
+                course.ImageFile.SaveAs(@"C:\Users\hoang\source\repos\TrainingSystem\TrainingSystem\Content\Images\" + filename);
+                course.Image = filename;
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -123,7 +136,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: Courses/Delete/5

@@ -5,10 +5,11 @@
 }
 
 <h2>List of course categories</h2>
-
+<hr />
 @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
 {
-    <a class="btn btn-success" href="/Categories/Index" role="button"><i class="fas fa-plus"></i> New category</a>
+    <a class="btn btn-success" href="/Categories/Create" role="button"><i class="fas fa-plus"></i> New category</a>
+    <hr />
 }
 
 <div class="flex-container">
@@ -20,11 +21,11 @@
             <div class="card-body">
                 <h5 class="card-title">@item.Name</h5>
                 <p class="card-text">@item.Description</p>
-                @Html.ActionLink("Details", "Details", new { id = item.CategoryID }, new { @class = "btn btn-secondary"  })
+                @Html.ActionLink("Details", "Details", new { id = item.CategoryID }, new { @class = "btn btn-secondary" })
                 @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
                 {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary"  })<span></span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger"  })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })<span></span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger" })
                 }
             </div>
         </div>

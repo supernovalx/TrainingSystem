@@ -17,22 +17,32 @@ namespace TrainingSystem.Controllers
         // GET: Trainer
         public ActionResult Index()
         {
-            return View(db.Users.Where(u => u.Role == "Trainer").ToList());
+            if (Authorizer.CheckRole("Administrator,TrainingStaff", Session))
+            {
+                return View(db.Users.Where(u => u.Role == "Trainer").ToList());
+            }
+            else
+                return View("AccessDenied");
         }
 
         // GET: Trainer/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Authorizer.CheckRole("Administrator,TrainingStaff", Session))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            else
+                return View("AccessDenied");
         }
 
         // GET: Trainer/Create
@@ -51,15 +61,88 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "Trainer";
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            return View(user);
+        }
+
+        public ActionResult AssignTopic(string id)
+        {
+            if (Authorizer.CheckRole("TrainingStaff,Administrator", Session))
+            {
+                ViewBag.TopicID = new SelectList(db.Topics, "TopicID", "Name");
+                ViewBag.TrainerID = id;
+                return View();
+            }
+            else
+                return View("AccessDenied");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignTopic(string trainerID, int topicID)
+        {
+            Topic topic = db.Topics.FirstOrDefault(t => t.TopicID == topicID);
+            User user = db.Users.FirstOrDefault(u => u.UserID == trainerID);
+            topic.Users.Add(user);
+            db.Entry(topic).State = EntityState.Modified;
+            db.SaveChanges();
+            return Redirect("/Trainer/Details/" + trainerID);
+        }
+
+        public ActionResult RemoveAssignTopic(string trainerID, int topicID)
+        {
+            Topic topic = db.Topics.FirstOrDefault(t => t.TopicID == topicID);
+            User user = db.Users.FirstOrDefault(u => u.UserID == trainerID);
+            topic.Users.Remove(user);
+            db.Entry(topic).State = EntityState.Modified;
+            db.SaveChanges();
+            return Redirect("/Trainer/Details/" + trainerID);
+        }
+
+        public ActionResult UpdateProfile()
+        {
+            if (Authorizer.CheckRole("Trainer", Session))
+            {
+                string id = Session["username"].ToString();
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
+            }
+            else
+                return View("AccessDenied");
+
+        }
+
+        // POST: Trainer/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProfile([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.Role = "Trainer";
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View(user);
         }
 
@@ -81,7 +164,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: Trainer/Edit/5
@@ -89,10 +172,11 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB,Type,Phone,Workplace")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "Trainer";
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -118,7 +202,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: Trainer/Delete/5

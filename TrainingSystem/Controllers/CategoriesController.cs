@@ -49,10 +49,13 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,Name,Description,Image")] Category category)
+        public ActionResult Create([Bind(Include = "CategoryID,Name,Description,ImageFile")] Category category)
         {
             if (ModelState.IsValid)
             {
+                string filename = new Random().Next(31287489).ToString() + category.ImageFile.FileName;
+                category.ImageFile.SaveAs(@"C:\Users\hoang\source\repos\TrainingSystem\TrainingSystem\Content\Images\" + filename);
+                category.Image = filename;
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -87,10 +90,13 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,Name,Description,Image")] Category category)
+        public ActionResult Edit([Bind(Include = "CategoryID,Name,Description,ImageFile")] Category category)
         {
             if (ModelState.IsValid)
             {
+                string filename = new Random().Next(31287489).ToString() + category.ImageFile.FileName;
+                category.ImageFile.SaveAs(@"C:\Users\hoang\source\repos\TrainingSystem\TrainingSystem\Content\Images\" + filename);
+                category.Image = filename;
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

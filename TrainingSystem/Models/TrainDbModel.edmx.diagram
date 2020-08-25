@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="576678d69d204929bba95889f7a624b2" Name="Diagram1">
+      <Diagram DiagramId="9f4f8dd8d0c64c709255bb7979eddbf4" Name="Diagram1">
         <EntityTypeShape EntityType="TrainDbModel.Category" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TrainDbModel.Course" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TrainDbModel.Topic" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainDbModel.Topic" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TrainDbModel.User" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="TrainDbModel.FK__Course__Category__2A4B4B5E" ManuallyRouted="false" />
-        <AssociationConnector Association="TrainDbModel.CourseTopic" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainDbModel.FK__Course__Category__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainDbModel.FK__Topic__CourseID__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="TrainDbModel.TraineeCourse" ManuallyRouted="false" />
         <AssociationConnector Association="TrainDbModel.TrainerTopic" ManuallyRouted="false" />
       </Diagram>

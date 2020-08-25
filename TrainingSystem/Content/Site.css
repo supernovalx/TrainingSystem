@@ -84,3 +84,13 @@
     display: block;
     color: black;
 }
+
+.carousel-caption {
+    mix-blend-mode: difference;
+}
+
+.course-img {
+    margin: 0 auto;
+    display: block;
+    height: 40vh;
+}

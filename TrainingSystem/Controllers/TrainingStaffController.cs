@@ -17,22 +17,32 @@ namespace TrainingSystem.Controllers
         // GET: TrainingStaff
         public ActionResult Index()
         {
-            return View(db.Users.Where(u => u.Role == "TrainingStaff").ToList());
+            if (Authorizer.CheckRole("Administrator", Session))
+            {
+                return View(db.Users.Where(u => u.Role == "TrainingStaff").ToList());
+            }
+            else
+                return View("AccessDenied");
         }
 
         // GET: TrainingStaff/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            if (Authorizer.CheckRole("Administrator", Session))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            else
+                return View("AccessDenied");
         }
 
         // GET: TrainingStaff/Create
@@ -44,7 +54,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: TrainingStaff/Create
@@ -52,10 +62,11 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "TrainingStaff";
                 db.Users.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,7 +93,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: TrainingStaff/Edit/5
@@ -90,10 +101,11 @@ namespace TrainingSystem.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Password,Role,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Type,Phone,Workplace")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.Role = "TrainingStaff";
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -119,7 +131,7 @@ namespace TrainingSystem.Controllers
             }
             else
                 return View("AccessDenied");
-            
+
         }
 
         // POST: TrainingStaff/Delete/5

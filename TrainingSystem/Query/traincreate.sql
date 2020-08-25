@@ -18,12 +18,6 @@ CREATE TABLE Users (
 	Workplace varchar(255)
 );
 
-CREATE TABLE Topic (
-    TopicID int IDENTITY(1,1) PRIMARY KEY,
-    Name varchar(255) NOT NULL,
-    Description varchar(255)
-);
-
 CREATE TABLE Category (
     CategoryID int IDENTITY(1,1) PRIMARY KEY,
     Name varchar(255) NOT NULL,
@@ -39,6 +33,13 @@ CREATE TABLE Course (
 	CategoryID int FOREIGN KEY REFERENCES Category(CategoryID)
 );
 
+CREATE TABLE Topic (
+    TopicID int IDENTITY(1,1) PRIMARY KEY,
+    Name varchar(255) NOT NULL,
+    Description varchar(255),
+    CourseID int FOREIGN KEY REFERENCES Course(CourseID) 
+);
+
 CREATE TABLE TrainerTopic (
     UserID varchar(255) FOREIGN KEY REFERENCES Users(UserID),
 	TopicID int FOREIGN KEY REFERENCES Topic(TopicID),
@@ -49,10 +50,4 @@ CREATE TABLE TraineeCourse (
     UserID varchar(255) FOREIGN KEY REFERENCES Users(UserID),
 	CourseID int FOREIGN KEY REFERENCES Course(CourseID),
 	CONSTRAINT PK_TraineeCourse PRIMARY KEY (UserID,CourseID)
-);
-
-CREATE TABLE CourseTopic (
-    CourseID int FOREIGN KEY REFERENCES Course(CourseID),
-	TopicID int FOREIGN KEY REFERENCES Topic(TopicID),
-	CONSTRAINT PK_CourseTopic PRIMARY KEY (CourseID,TopicID)
 );

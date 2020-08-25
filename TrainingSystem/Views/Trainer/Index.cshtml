@@ -5,10 +5,12 @@
 }
 
 <h2>List of trainers</h2>
+<hr />
 
-@if (Session["role"] != null && Session["role"].ToString() == "Administrator")
+@if (Session["role"] != null && "Administrator,TrainingStaff".Contains(Session["role"].ToString()))
 {
     <a class="btn btn-success" href="/Trainer/Create" role="button"><i class="fas fa-plus"></i> New trainer</a>
+    <hr />
 }
 
 <table class="table table-striped">
@@ -51,7 +53,7 @@
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.UserID })
-                @if (Session["role"] != null && Session["role"].ToString() == "Administrator")
+                @if (Session["role"] != null && "Administrator,TrainingStaff".Contains(Session["role"].ToString()))
                 {
                     <span>|</span>
                     @Html.ActionLink("Edit", "Edit", new { id = item.UserID })

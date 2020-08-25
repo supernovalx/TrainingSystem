@@ -5,10 +5,12 @@
 }
 
 <h2>List of topics</h2>
+<hr />
 
 @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
 {
-    <a class="btn btn-success" href="/Courses/Create" role="button"><i class="fas fa-plus"></i> New topic</a>
+    <a class="btn btn-success" href="/Topics/Create" role="button"><i class="fas fa-plus"></i> New topic</a>
+    <hr />
 }
 
 <table class="table table-striped">
@@ -24,23 +26,23 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    <td>
-        @Html.ActionLink("Details", "Details", new { id = item.TopicID })
-        @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
-        {
-            <span>|</span>
-            @Html.ActionLink("Edit", "Edit", new { id = item.TopicID })
-            <span>|</span>
-            @Html.ActionLink("Delete", "Delete", new { id = item.TopicID })
-        }
-    </td>
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.TopicID })
+                @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TopicID })
+                    <span>|</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TopicID })
+                }
+            </td>
+        </tr>
     }
 </table>

@@ -5,10 +5,14 @@
 }
 
 <h2>List of trainees</h2>
+<hr />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+{
+    <a class="btn btn-success" href="/Trainee/Create" role="button"><i class="fas fa-plus"></i> New trainee</a>
+    <hr />
+}
+
 <table class="table table-striped">
     <tr>
         <th>
@@ -29,34 +33,35 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.UserID)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DOB)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Phone)
-    </td>
-    <td>
-        @Html.ActionLink("Details", "Details", new { id = item.UserID })
-        @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
-        {
-            <span>|</span>
-            @Html.ActionLink("Edit", "Edit", new { id = item.UserID })
-            <span>|</span>
-            @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
-        }
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.UserID })
+                @if (Session["role"] != null && Session["role"].ToString() == "TrainingStaff")
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserID })
+                    <span>|</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+                }
+            </td>
+        </tr>
+    }
 
 </table>
