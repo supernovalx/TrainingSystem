@@ -12,7 +12,13 @@
     <a class="btn btn-success" href="/Trainee/Create" role="button"><i class="fas fa-plus"></i> New trainee</a>
     <hr />
 }
-
+@using (Html.BeginForm("Index", "Trainee", FormMethod.Get))
+{
+    <div>
+        @Html.TextBox("SearchString") <input type="submit" value="Search" />
+    </div>
+}
+<hr />
 <table class="table table-striped">
     <tr>
         <th>

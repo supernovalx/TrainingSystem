@@ -11,7 +11,13 @@
     <a class="btn btn-success" href="/Categories/Create" role="button"><i class="fas fa-plus"></i> New category</a>
     <hr />
 }
-
+@using (Html.BeginForm("Index", "Categories", FormMethod.Get))
+{
+    <div>
+        @Html.TextBox("SearchString") <input type="submit" value="Search" />
+    </div>
+}
+<hr />
 <div class="flex-container">
 
     @foreach (var item in Model)

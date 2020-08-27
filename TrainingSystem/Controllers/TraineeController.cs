@@ -15,16 +15,25 @@ namespace TrainingSystem.Controllers
         private TrainDbEntities db = new TrainDbEntities();
 
         
-        public ActionResult Index()
+        public ActionResult Index(string SearchString)
         {
             if (Authorizer.CheckRole("TrainingStaff", Session))
             {
-                return View(db.Users.Where(u => u.Role == "Trainee").ToList());
+                List<User> trainees = db.Users.Where(u => u.Role == "Trainee").ToList();
+
+                if (!string.IsNullOrEmpty(SearchString))
+                    trainees = trainees.Where(c => ToSearchString(c).Contains(SearchString.ToLower())).ToList();
+
+                return View(trainees);
             }
             else
                 return View("AccessDenied");
         }
 
+        private string ToSearchString(User u)
+        {
+            return $"{u.Name} {u.ProgrammingLanguage} {u.TOEIC} {u.Phone} {u.UserID} {u.Location}".ToLower();
+        }
         
         public ActionResult Details(string id)
         {
@@ -95,7 +104,7 @@ namespace TrainingSystem.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
+        public ActionResult Create([Bind(Include = "UserID,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +143,7 @@ namespace TrainingSystem.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Password,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Name,Email,DOB,Education,ProgrammingLanguage,TOEIC,Experience,Department,Location,Phone")] User user)
         {
             if (ModelState.IsValid)
             {

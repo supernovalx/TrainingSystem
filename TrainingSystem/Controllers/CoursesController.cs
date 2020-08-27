@@ -16,9 +16,13 @@ namespace TrainingSystem.Controllers
         private TrainDbEntities db = new TrainDbEntities();
 
         
-        public ActionResult Index()
+        public ActionResult Index(string SearchString)
         {
             List<Course> courses = db.Courses.Include(c => c.Category).ToList();
+
+            if (!string.IsNullOrEmpty(SearchString))
+                courses = courses.Where(c => c.Name.ToLower().Contains(SearchString.ToLower())).ToList();
+
             if (Authorizer.CheckRole("Trainer", Session))
             {
                 string uid = Session["username"].ToString();

@@ -13,8 +13,14 @@
     <hr />
 }
 
+@using (Html.BeginForm("Index", "Courses", FormMethod.Get))
+{
+    <div>
+        @Html.TextBox("SearchString") <input type="submit" value="Search" />
+    </div>
+}
+<hr />
 <div class="flex-container">
-
     @foreach (var item in Model)
     {
         <div class="card" style="width: 18rem;">

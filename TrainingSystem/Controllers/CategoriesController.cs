@@ -14,9 +14,14 @@ namespace TrainingSystem.Controllers
     {
         private TrainDbEntities db = new TrainDbEntities();
 
-        public ActionResult Index()
+        public ActionResult Index(string SearchString)
         {
-            return View(db.Categories.ToList());
+            List<Category> categories = db.Categories.ToList();
+
+            if (!string.IsNullOrEmpty(SearchString))
+                categories = categories.Where(c => c.Name.ToLower().Contains(SearchString.ToLower())).ToList();
+
+            return View(categories);
         }
 
         public ActionResult Details(int? id)

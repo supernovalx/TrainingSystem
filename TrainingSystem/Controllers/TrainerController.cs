@@ -141,7 +141,7 @@ namespace TrainingSystem.Controllers
                 user.Role = "Trainer";
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("UpdateProfile");
             }
             return View(user);
         }
