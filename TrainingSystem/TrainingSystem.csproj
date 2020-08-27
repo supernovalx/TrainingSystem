@@ -194,6 +194,7 @@
       <DependentUpon>TrainDbModel.edmx</DependentUpon>
       <LastGenOutput>TrainDbModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Query\FULL_SCRIPT.sql" />
     <Content Include="Query\traincreate.sql" />
     <Content Include="Query\traininsert.sql" />
     <Content Include="Scripts\bootstrap.js" />
